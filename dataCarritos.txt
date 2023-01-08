@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "timeStamp": "Sun Jan 08 2023 13:52:57 GMT-0300 (hora de verano de Chile)"
+  },
+  {
+    "id": 2,
+    "timeStamp": "Sun Jan 08 2023 13:52:58 GMT-0300 (hora de verano de Chile)"
+  },
+  {
+    "id": 4,
+    "timeStamp": "Sun Jan 08 2023 13:52:59 GMT-0300 (hora de verano de Chile)"
+  },
+  {
+    "id": 5,
+    "timeStamp": "Sun Jan 08 2023 13:52:59 GMT-0300 (hora de verano de Chile)"
+  }
+]

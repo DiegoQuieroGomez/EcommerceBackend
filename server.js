@@ -1,7 +1,8 @@
+const { create } = require('domain')
 const express = require('express')
 const app = express()
-
-const administrador = true
+const fs = require('fs')
+let administrador = true
 
 let carritos = []
 
@@ -20,16 +21,39 @@ let productos = [
 ]
 
 class Carrito{
-    constructor(id, timeStamp){
+    constructor(id){
         this.id = id
-        this.timeStamp = timeStamp
+        this.timeStamp = Date().toLocaleString()
         this.Producto = Producto
     }
 
+    async create(array){
+        await fs.promises.writeFile('dataCarritos.txt', JSON.stringify(array, null, 2))
+        .then(console.log('Archivo creado exitosamente'))
+        .catch(error => console.log(error))
+    }   
+
+    async save(array){
+
+        let productos = []
+        const data = await fs.promises.readFile('dataCarritos.txt', 'utf-8')
+        .then(console.log(`Archivo leido correctamente`))
+        .catch(error => console.log(error))
+        let mix = JSON.parse(data)
+        if (mix.length > 0) {
+            productos.push(...mix)
+        }else{
+            productos.push(mix)
+        }
+        productos.push(...array)
+        fs.promises.writeFile('dataCarritos.thx', JSON.stringify(productos, null, 2))
+        .then('sobreescritura correcta')
+        .catch(error => console.log(error)) 
+    }
 }
 
 class Producto{
-    constructor(id,timeStamp, nombre, descripcion, codigo, foto, precio, stock){
+    constructor(id, timeStamp, nombre, descripcion, codigo, foto, precio, stock){
         this.id = id
         this.timeStamp = timeStamp
         this.nombre = nombre
@@ -40,16 +64,26 @@ class Producto{
         this.stock = stock
 
     }
+
+    async create(array){
+        await fs.promises.writeFile('dataProductos.txt', JSON.stringify(array, null, 2))
+        .then(console.log('Archivo creado exitosamente'))
+        .catch(error => console.log(error))
+    }
+
 }
 
 app.use(express.static('public'))
 const routerProductos = express.Router()
 const routerCarritos = express.Router()
 
+
 app.use('/api/productos', routerProductos)
 routerProductos.use(express.json())
-app.use('api/carritos', routerCarritos)
+routerProductos.use(express.urlencoded({extended: true}))
+app.use('/api/carritos', routerCarritos)
 routerCarritos.use(express.json())
+routerCarritos.use(express.urlencoded({extended: true}))
 
 //FUNCIONALIDAD PRODUCTOS---------------------------------------------------------------------------------------
 //Lista por id y sin id
@@ -65,14 +99,15 @@ routerProductos.get('/:id?', (req, res) => {
 
 //Añade un registo por ID
 routerProductos.post('/', (req, res) => {
-    let count = 1
-    if (administrador = true) {
-        productos.push(req.body)
-        productos.forEach(producto => {
-            producto.id = count++
-        })
+    
+    if (administrador == true) {
+        //let { detalle } = req.body
+        //console.log(detalle)
+        let prod = new Producto(req.body)
+        productos.push(prod)
         let ultimo = productos.at(-1)
         res.send(ultimo)
+        prod.create(productos)
     } else {
         res.send("No tienes permisos para realizar esta tarea")
     }
@@ -86,7 +121,7 @@ routerProductos.put('/:id', (req, res) => {
     productoActualizado.id = id
     let productoID = productos.find(producto => producto.id == id)
 
-    if (administrador = true) {
+    if (administrador == true) {
         if (productoID != null) {
             let indice = productoID.id
             productos[indice - 1] = nuevoProducto
@@ -102,7 +137,7 @@ routerProductos.put('/:id', (req, res) => {
 
 })
 
-//Elimina un objeto por ID
+//Elimina un Producto por ID
 routerProductos.delete('/:id', (req, res) => {
     let id = req.params.id
     let productoID = productos.find(producto => producto.id == id)
@@ -127,24 +162,28 @@ routerProductos.delete('/:id', (req, res) => {
 
 //Crea un nuevo carrito
 routerCarritos.post('/', (req, res) => {
-    let count = 1
-    let nuevoCarrito = new Carrito(carritos.length + 1, Date.now())
+    let nuevoCarrito = new Carrito(carritos.length + 1)
+    console.log(nuevoCarrito)
     carritos.push(nuevoCarrito)
+    console.log(carritos)
+    nuevoCarrito.create(carritos)
     res.send(`Carrito creado correctamente ${nuevoCarrito.id}`)
-
 })
 
 //Borra carrito
 routerCarritos.delete('/:id', (req, res) =>{
+    let instanciaCarro = new Carrito()
     let id = req.params.id
     let carritoID = carritos.find(carro => carro.id == id)
+    console.log(carritos)
     if (carritoID != null) {
         let indice = carritoID.id
-        productos.splice(indice - 1, 1)
-        res.send(productos)
-
+        carritos.splice(indice - 1, 1)
+        res.send(carritos)
+        instanciaCarro.create(carritos)
+        
     } else {
-        res.send(`No existe un producto con id: ${id}`)
+        res.send(`No existe un carrito con id: ${id}`)
     }
 
 })
@@ -175,7 +214,27 @@ routerCarritos.post('/:id/productos', (req, res) =>{
 })
 
 //Elimina Producto por id de producto e id de carrito
+routerCarritos.delete('/:id/producto/:id_prod', (req, res)=>{
+    let idCarro = req.params.id
+    let idProd = req.params.id_prod
+    let carritoID = carritos.find(carro => carro.id == idCarro)
+    let productoID = productos.find(producto => producto.id == idProd)
 
+    if (administrador = true) {
+        if (carritoID != null && productoID != null) {
+            let indice = productoID.id
+            productos.splice(indice - 1, 1)
+            res.send(productos)
+
+        } else {
+            res.send(`No existe un producto con id: ${id}`)
+        }
+
+    } else {
+        res.send("No tienes permisos para realizar esta tarea")
+    }
+
+})
 
 
 //Servidor --------------------------------------------------------------------------------------------------------

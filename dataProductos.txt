@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nombre": "xola",
+    "precio": 2000
+  },
+  {
+    "id": 2,
+    "nombre": "copo",
+    "precio": 1000
+  },
+  {
+    "id": {
+      "id": 12323454,
+      "nombre": "taza",
+      "descripcion": "Taza de vegeta",
+      "codigo": "fz87rt",
+      "foto": "www.laputamadre.com",
+      "precio": 2000,
+      "stock": 2500
+    }
+  }
+]
