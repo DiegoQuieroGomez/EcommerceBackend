@@ -1,24 +1,24 @@
-const { create } = require('domain')
+
 const express = require('express')
 const app = express()
 const fs = require('fs')
 let administrador = true
 
+app.use(express.static('public'))
+const routerProductos = express.Router()
+const routerCarritos = express.Router()
+
+app.use('/api/productos', routerProductos)
+routerProductos.use(express.json())
+routerProductos.use(express.urlencoded({extended: true}))
+app.use('/api/carritos', routerCarritos)
+routerCarritos.use(express.json())
+routerCarritos.use(express.urlencoded({extended: true}))
+
+
 let carritos = []
+let productos = []
 
-
-let productos = [
-    {
-        id: 1,
-        nombre: "xola",
-        precio: 2000
-    },
-    {
-        id: 2,
-        nombre: "copo",
-        precio: 1000
-    }
-]
 
 class Carrito{
     constructor(id){
@@ -46,7 +46,7 @@ class Carrito{
             productos.push(mix)
         }
         productos.push(...array)
-        fs.promises.writeFile('dataCarritos.thx', JSON.stringify(productos, null, 2))
+        fs.promises.writeFile('dataCarritos.txt', JSON.stringify(productos, null, 2))
         .then('sobreescritura correcta')
         .catch(error => console.log(error)) 
     }
@@ -69,21 +69,37 @@ class Producto{
         await fs.promises.writeFile('dataProductos.txt', JSON.stringify(array, null, 2))
         .then(console.log('Archivo creado exitosamente'))
         .catch(error => console.log(error))
+
     }
 
+    async save(array){
+
+        let productos = []
+        
+        const data = await fs.promises.readFile('dataProductos.txt', 'utf-8')
+        .then(console.log(`Archivo leido correctamente`))
+        .catch(error => console.log(error))
+        let mix = JSON.parse(data)
+        if (mix.length > 0) {
+            productos.push(...mix)
+        }else{
+            productos.push(mix)
+        }
+        productos.push(...array)
+        
+        fs.promises.writeFile('dataProductos.txt', JSON.stringify(productos, null, 2))
+        .then('sobreescritura correcta')
+        .catch(error => console.log(error)) 
+        
+        await fs.promises.writeFile('public/dataProductos.json', JSON.stringify(productos, null, 2))
+        .then(console.log('Archivo creado exitosamente'))
+        .catch(error => console.log(error))
+        
+    
+    }
 }
 
-app.use(express.static('public'))
-const routerProductos = express.Router()
-const routerCarritos = express.Router()
 
-
-app.use('/api/productos', routerProductos)
-routerProductos.use(express.json())
-routerProductos.use(express.urlencoded({extended: true}))
-app.use('/api/carritos', routerCarritos)
-routerCarritos.use(express.json())
-routerCarritos.use(express.urlencoded({extended: true}))
 
 //FUNCIONALIDAD PRODUCTOS---------------------------------------------------------------------------------------
 //Lista por id y sin id
@@ -101,13 +117,26 @@ routerProductos.get('/:id?', (req, res) => {
 routerProductos.post('/', (req, res) => {
     
     if (administrador == true) {
-        //let { detalle } = req.body
-        //console.log(detalle)
-        let prod = new Producto(req.body)
+        const instanciaProd = new Producto()
+        let prod = req.body
         productos.push(prod)
         let ultimo = productos.at(-1)
         res.send(ultimo)
-        prod.create(productos)
+        //crear primer producto, bajar servidor y posteriormente ingresar productos con normalidad.
+        //Revisar metodo
+        fs.stat('dataProductos.txt', function(err) {
+            if (err == null) {
+              console.log("El archivo existe");
+              instanciaProd.save(productos)
+            } else if (err.code == 'ENOENT') {
+              console.log("el archivo no existe");
+              instanciaProd.create(productos)
+            } else {
+              console.log(err); // ocurrió algún error
+            }
+          })
+        
+        
     } else {
         res.send("No tienes permisos para realizar esta tarea")
     }

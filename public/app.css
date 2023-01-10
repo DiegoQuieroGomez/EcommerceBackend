@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-image: url("/sources/wpp.png");
+    width: auto;
+    height: auto;
+}
+
+.contentContainer{
+    width: 75%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
+    margin-top: 25px;
+    justify-content: center;
+}
+
+.product{
+    background-color: whitesmoke;
+    margin: 3px;
+    width: 15%;
+    height: 300px;
+    border-radius: 20px;
+    padding: 20px 10px;
+    text-align: center;
+    border:solid 2px #E9E2E1;
+    display: block;
+
+}
+
+.productImg{
+    border: solid 2px rgb(0, 0, 0);
+    width: 100px;
+    height: 90px;
+    background-color: black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.productName {
+    display: block;
+    color: black;
+    font-size: 17px;
+    
+
+}
+
+.productPrice{
+    
+    text-align: justify;
+    color: aqua;
+    font-size: 20px;
+    font-weight: 900;
+    border-radius: 2px;
+    
+ 
+    
+}
