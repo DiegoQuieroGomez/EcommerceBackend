@@ -1,32 +1,21 @@
 [
   {
-    "id": 12323454,
-    "timeStamp": "",
-    "nombre": "taza13",
-    "descripcion": "Taza vegeta",
+    "id": 46664,
+    "nombre": "tazon",
+    "descripcion": "Taza de freezer",
     "codigo": "fz87rt",
-    "foto": "https://http2.mlstatic.com/D_NQ_NP_958868-MLC47249656013_082021-O.jpg",
+    "foto": "www.incrible.com",
     "precio": 2000,
-    "stock": 2500
+    "stock": 2500000
   },
   {
-    "id": 12323454,
-    "timeStamp": "",
-    "nombre": "taza11233",
-    "descripcion": "Taza vegeta",
+    "id": 46664,
+    "timeStamp": "Sun Jan 29 2023 15:20:38 GMT-0300 (hora de verano de Chile)",
+    "nombre": "tazon",
+    "descripcion": "Taza de broly",
     "codigo": "fz87rt",
-    "foto": "https://http2.mlstatic.com/D_NQ_NP_958868-MLC47249656013_082021-O.jpg",
+    "foto": "www.incrible.com",
     "precio": 2000,
-    "stock": 2500
-  },
-  {
-    "id": 1234,
-    "timeStamp": "",
-    "nombre": "taza2",
-    "descripcion": "Taza Broly",
-    "codigo": "grrat",
-    "foto": "https://http2.mlstatic.com/D_NQ_NP_653889-MLC51587626803_092022-V.jpg",
-    "precio": 8000,
-    "stock": 500
+    "stock": 2500000
   }
 ]

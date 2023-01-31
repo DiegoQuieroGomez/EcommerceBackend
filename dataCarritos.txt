@@ -1,22 +1,14 @@
 [
   {
     "id": 1,
-    "timeStamp": "Mon Jan 09 2023 21:34:56 GMT-0300 (hora de verano de Chile)"
+    "timeStamp": "Sun Jan 29 2023 22:48:38 GMT-0300 (hora de verano de Chile)"
   },
   {
     "id": 2,
-    "timeStamp": "Mon Jan 09 2023 21:34:57 GMT-0300 (hora de verano de Chile)"
+    "timeStamp": "Sun Jan 29 2023 22:49:02 GMT-0300 (hora de verano de Chile)"
   },
   {
     "id": 3,
-    "timeStamp": "Mon Jan 09 2023 21:34:58 GMT-0300 (hora de verano de Chile)"
-  },
-  {
-    "id": 4,
-    "timeStamp": "Mon Jan 09 2023 21:34:58 GMT-0300 (hora de verano de Chile)"
-  },
-  {
-    "id": 5,
-    "timeStamp": "Mon Jan 09 2023 21:34:59 GMT-0300 (hora de verano de Chile)"
+    "timeStamp": "Sun Jan 29 2023 22:49:04 GMT-0300 (hora de verano de Chile)"
   }
 ]
