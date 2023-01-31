@@ -1,7 +1,7 @@
 # EcommerceBackend
 
 //Producto para probar
-No he registado en timestamp por que se obtendr{a automaticamente desde el form en html, pero de momento no me permite hacerlo por json.
+No he registado en timestamp por que se obtendra automaticamente desde el form en html, pero de momento no me permite hacerlo por json.
 
 {
  "id": 12323454,
