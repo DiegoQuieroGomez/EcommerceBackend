@@ -15,7 +15,7 @@ class Carrito {
 
     }
 
-    async save(id) {
+    async save() {
         let mix = []
         const data = await fs.promises.readFile('dataCarritos.txt', 'utf-8')
             .then(console.log(`Archivo leido correctamente`))
@@ -24,17 +24,25 @@ class Carrito {
             console.log(mix)
             const carro = new Carrito(mix.length + 1)
             mix.push(carro)
-            id = carro.id
+
         await fs.promises.writeFile('dataCarritos.txt', JSON.stringify(mix, null, 2))
             .then('sobreescritura correcta')
             .catch(error => console.log(error))
     }
 
-    async read(variable) {
+    async read() {
+        
         const data = await fs.promises.readFile('dataCarritos.txt', 'utf-8')
             .then(console.log("Leido"))
             .catch(error => console.log(error))
-        variable.push(JSON.parse(data))
+        let mix = await JSON.parse(data)
+        console.log(mix)
+        return data
+
+        
+        
+        //variable.push()
+        //console.log(variable)
     }
 
 }

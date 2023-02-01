@@ -3,7 +3,7 @@ import Carrito from '../class/carritos.js'
 import administrador from '../server.js' 
 import {productos} from './routesProductos.js'
 import * as indecar from '../index.js'
-
+import fs from 'fs'
 
 const routerCarritos = express.Router()
 routerCarritos.use(express.json())
@@ -15,7 +15,7 @@ let carritos = []
 
 //Crea un nuevo carrito
 routerCarritos.post('/', (req, res) => {
-    let id
+
     instanciaCarro.save(id)
     indecar.crearCarro(id)
     indecar.listarCarros()
@@ -44,18 +44,20 @@ routerCarritos.delete('/:id', (req, res) =>{
 
 //Lista productos del carro
 routerCarritos.get('/:id/productos', (req,res) => {
+    let productos = []
     let id = req.params.id
-    let carros = []
-    instanciaCarro.read(carros)
+    let carros = JSON.parse(fs.readFileSync('dataCarritos.txt', 'utf8'))
+    carros = carros.find(carro => carro.id == id)
     console.log(carros)
-    let carroElegido = carros.find(carro => carro.id == id)
-    carroElegido.forEach(producto => console.log(producto))
+    //productos.forEach(producto => console.log(producto))
+    //res.json(carroElegido)
 })
 
 //Ingresa Productos por ID 
 routerCarritos.post('/:id/productos', (req, res) =>{
     let idCarro = req.params.id
     let idProducto = req.body
+
     let carritoID = carritos.find(carro => carro.id == idCarro)
     let productoID = productos.find(producto => producto.id == idProducto)
 

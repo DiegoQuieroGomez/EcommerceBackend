@@ -13,6 +13,7 @@ export async function listarCarros(){
     console.log(carros)
 }
 
+
 export async function crearCarro(id){
     await model.carritos.create({
     id: id, timestamp: Date.now()
